@@ -15,7 +15,7 @@ interface ChapterProps {
   isItalic?: boolean;
   overline?: string;
   titleSize?: string;
-  variant?: "subtitulo" | "titulo" | "portada" | "portada81" | "portadafinal" | "texto" | "barras" | "barras-pro" | "apertura" | "apertura2" | "hub" | "backtest-stats" | "backtest-cities" | "numeric" | "business-units" | "reviews" | "neural-map";
+  variant?: "subtitulo" | "titulo" | "portada" | "portada81" | "portada-infra" | "portadafinal" | "texto" | "barras" | "barras-pro" | "apertura" | "apertura2" | "hub" | "backtest-stats" | "backtest-cities" | "numeric" | "business-units" | "reviews" | "neural-map";
   align?: "left" | "center" | "right";
   maxWidth?: string;
   ctaUrl?: string;
@@ -496,6 +496,8 @@ const Chapter: React.FC<ChapterProps> = ({ id, title, overline, text, background
           <Logo intro />
         ) : variant === 'portada81' ? (
           <Logo intro subtitle={text} subtitleClassName="!mt-[17px]" />
+        ) : variant === 'portada-infra' ? (
+          <Logo intro subtitle={text} subtitleClassName="!mt-[17px]" allowHtml={true} />
         ) : variant === 'portadafinal' ? (
           <Logo intro subtitle="JOIN US" />
         ) : variant === 'apertura' ? (

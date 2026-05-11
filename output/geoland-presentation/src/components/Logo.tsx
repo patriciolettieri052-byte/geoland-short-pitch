@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const Logo: React.FC<{ intro?: boolean; subtitle?: string; subtitleClassName?: string }> = ({ intro, subtitle, subtitleClassName }) => {
+const Logo: React.FC<{ intro?: boolean; subtitle?: string; subtitleClassName?: string; allowHtml?: boolean }> = ({ intro, subtitle, subtitleClassName, allowHtml }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.9 }}
@@ -27,9 +27,13 @@ const Logo: React.FC<{ intro?: boolean; subtitle?: string; subtitleClassName?: s
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className={`mt-8 text-xs md:text-sm uppercase tracking-[0.5em] font-extralight text-white/70 text-center whitespace-nowrap w-full max-w-[80vw] ${subtitleClassName || ''}`}
+            className={`mt-8 text-xs md:text-sm uppercase tracking-[0.5em] font-extralight text-white/70 text-center ${allowHtml ? 'whitespace-normal leading-relaxed' : 'whitespace-nowrap'} w-full max-w-[80vw] ${subtitleClassName || ''}`}
           >
-            {subtitle}
+            {allowHtml ? (
+              <span dangerouslySetInnerHTML={{ __html: subtitle }} />
+            ) : (
+              subtitle
+            )}
           </motion.p>
         )}
       </div>
