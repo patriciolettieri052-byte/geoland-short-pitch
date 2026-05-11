@@ -163,13 +163,18 @@ function App() {
       {/* Fullscreen Toggle - Bottom Right */}
       <button 
         onClick={toggleFullscreen}
-        className="fixed bottom-8 right-24 z-[60] w-12 h-12 flex items-center justify-center group"
+        className={`fixed bottom-8 right-12 md:right-24 z-[60] ${isMobile ? 'w-16 h-16' : 'w-12 h-12'} flex items-center justify-center group transition-all duration-500`}
       >
         <div className="absolute inset-0 bg-white/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 backdrop-blur-sm border border-white/10" />
         {isFullscreen ? (
-          <Minimize className="w-5 h-5 relative z-10 text-white opacity-30 group-hover:opacity-100 transition-all duration-500" strokeWidth={1.5} />
+          <Minimize className={`${isMobile ? 'w-6 h-6' : 'w-5 h-5'} relative z-10 text-white opacity-30 group-hover:opacity-100 transition-all duration-500`} strokeWidth={1.5} />
         ) : (
-          <Maximize className="w-5 h-5 relative z-10 text-white opacity-30 group-hover:opacity-100 transition-all duration-500" strokeWidth={1.5} />
+          <Maximize className={`${isMobile ? 'w-6 h-6' : 'w-5 h-5'} relative z-10 text-white opacity-30 group-hover:opacity-100 transition-all duration-500`} strokeWidth={1.5} />
+        )}
+        {!isFullscreen && (
+          <span className={`absolute right-full mr-4 whitespace-nowrap text-[10px] tracking-[0.3em] font-jost font-light text-white ${isMobile ? 'opacity-40' : 'opacity-0 group-hover:opacity-40'} transition-all duration-500 uppercase`}>
+            Ver en pantalla completa
+          </span>
         )}
       </button>
 
