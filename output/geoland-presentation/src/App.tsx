@@ -4,7 +4,7 @@ import Logo from './components/Logo';
 import NavGrid from './components/NavGrid';
 import { slides } from './data/slides';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Home } from 'lucide-react';
+import { Home, Maximize, Minimize } from 'lucide-react';
 
 function App() {
   const [currentIdx, setCurrentIdx] = useState(-1); // -1 for Intro
@@ -13,6 +13,7 @@ function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [scale, setScale] = useState(1);
   const [showNavGrid, setShowNavGrid] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStart = useRef<number | null>(null);
 
   useEffect(() => {
@@ -49,6 +50,28 @@ function App() {
       setTimeout(() => setIsAnimating(false), 300);
     }
   }, [currentIdx, isAnimating]);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((e) => {
+        console.error(`Error attempting to enable fullscreen: ${e.message}`);
+      });
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -137,6 +160,19 @@ function App() {
         </span>
       </button>
 
+      {/* Fullscreen Toggle - Bottom Right */}
+      <button 
+        onClick={toggleFullscreen}
+        className="fixed bottom-8 right-24 z-[60] w-12 h-12 flex items-center justify-center group"
+      >
+        <div className="absolute inset-0 bg-white/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 backdrop-blur-sm border border-white/10" />
+        {isFullscreen ? (
+          <Minimize className="w-5 h-5 relative z-10 text-white opacity-30 group-hover:opacity-100 transition-all duration-500" strokeWidth={1.5} />
+        ) : (
+          <Maximize className="w-5 h-5 relative z-10 text-white opacity-30 group-hover:opacity-100 transition-all duration-500" strokeWidth={1.5} />
+        )}
+      </button>
+
       {/* Navigation Grid Overlay */}
       <NavGrid 
         isOpen={showNavGrid}
@@ -170,6 +206,11 @@ function App() {
             </div>
             <div className="relative z-20 w-full h-full flex items-center justify-center">
               <Logo intro />
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none select-none">
+                <span className="text-white/40 font-jost text-[8px] md:text-[10px] tracking-[0.2em] font-extralight uppercase text-center block">
+                  Para una mejor visualización ver en modo pantalla completa
+                </span>
+              </div>
             </div>
           </motion.div>
         )}

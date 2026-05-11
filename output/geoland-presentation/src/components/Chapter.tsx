@@ -125,9 +125,9 @@ const Chapter: React.FC<ChapterProps> = ({ id, title, overline, text, background
 
   // Variants for the focal shift (blur + scale)
   const bgVariants = {
-    initial: { opacity: 0, scale: 1.1, filter: "blur(20px)" },
-    animate: { opacity: 1, scale: 1, filter: "blur(0px)" },
-    exit: { opacity: 0, scale: 1.05, filter: "blur(10px)" }
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 }
   };
 
   // Variants for content parallax/slide-up
@@ -154,7 +154,7 @@ const Chapter: React.FC<ChapterProps> = ({ id, title, overline, text, background
         animate="animate"
         exit="exit"
         transition={transition}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 bg-black"
       >
         {backgroundMedia && (
           isVideo ? (
@@ -585,6 +585,15 @@ const Chapter: React.FC<ChapterProps> = ({ id, title, overline, text, background
           {String(id).padStart(2, '0')}
         </span>
       </div>
+
+      {/* Footer Hint - Bottom Center */}
+      {footer && variant !== 'barras-pro' && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none select-none">
+          <span className="text-white/40 font-jost text-[8px] md:text-[10px] tracking-[0.2em] font-extralight uppercase text-center block">
+            {footer}
+          </span>
+        </div>
+      )}
     </div>
   );
 };
